@@ -20,6 +20,11 @@ h6 {
 main {
     text-align: center;
 }
+.container {
+    width: 1095px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 #board {
     display: flex;
@@ -29,11 +34,11 @@ main {
 
 .row {
     display: flex;
-
+    flex-wrap: wrap;
 }
 
 .card {
-    width: 180px;
+    width: 195px;
     padding: 8px;
     border-radius: 12px;
     margin: 4px;
