@@ -1,13 +1,117 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html, body {
+    font-family: "Arial", serif;
+    margin: 0;
+    background-color: #F5FFFA;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h4 {
+    font-weight: 600;
+    font-size: 22px;
+    margin: 0;
+}
+
+h6 {
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+
+}
+
+main {
+    text-align: center;
+}
+
+#board {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.row {
+    display: flex;
+
+}
+
+.card {
+    width: 180px;
+    padding: 8px;
+    border-radius: 12px;
+    margin: 4px;
+}
+
+.box {
+    padding: 8px;
+    border: 2px solid #9f8e7c;
+    border-radius: 12px;
+}
+.small {
+    font-style: italic;
+    transform: rotate(180deg);
+    padding: 4px;
+    text-align: center;
+    margin-right: 14px;
+    color: #69573f;
+    border-top: 2px solid #9f8e7c;
+    margin-bottom: 6px;
+    padding-bottom: 20px;
+    flex-grow: 2;
+}
+.large {
+    background: #eee;
+    border-radius: 4px;
+    padding: 4px;
+    text-align: center;
+}
+
+.profile {
+    height: 32px;
+    width: 32px;
+    margin-right: 2px;
+    margin-top: 1px;
+    background-color: #dccec1;
+    flex-basis: 35px;
+    border: 2px solid #ebd9c5;
+}
+
+.red {
+    background-color: #e8333b;
+}
+
+.blue {
+    background-color: #3ca4c8;
+}
+
+.black {
+    background-color: #35362a;
+}
+
+.brown {
+    background-color: #f3ddc5;
+}
+
+.map-section {
+    margin-top: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+
+.map {
+    background-color: #0e0a09;
+    padding: 5px;
+    border-radius: 8px;
+    border: 10px solid #915533;
+}
+
+.block {
+    width: 40px;
+    height: 32px;
+    margin: 2px;
+    border-radius: 4px;
+}
+
+.json {
+    margin-top: 5rem;
+    text-align: left;
 }
