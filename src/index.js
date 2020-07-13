@@ -16,46 +16,8 @@ const Card = ({word}) =>
             </div>
         </div>
 
-const Map = () =>
-        <div className="map-section">
-            <div className="map">
-                <div className="row">
-                    <div className="block blue"></div>
-                    <div className="block red"></div>
-                    <div className="block brown"></div>
-                    <div className="block red"></div>
-                    <div className="block blue"></div>
-                </div>
-                <div className="row">
-                    <div className="block red"></div>
-                    <div className="block brown"></div>
-                    <div className="block brown"></div>
-                    <div className="block red"></div>
-                    <div className="block brown"></div>
-                </div>
-                <div className="row">
-                    <div className="block black"></div>
-                    <div className="block blue"></div>
-                    <div className="block blue"></div>
-                    <div className="block brown"></div>
-                    <div className="block blue"></div>
-                </div>
-                <div className="row">
-                    <div className="block red"></div>
-                    <div className="block brown"></div>
-                    <div className="block brown"></div>
-                    <div className="block red"></div>
-                    <div className="block red"></div>
-                </div>
-                <div className="row">
-                    <div className="block blue"></div>
-                    <div className="block blue"></div>
-                    <div className="block brown"></div>
-                    <div className="block red"></div>
-                    <div className="block blue"></div>
-                </div>
-            </div>
-        </div>
+const Map = ({color}) =>
+        <div className={'block ' + color}></div>
   
  const Board = ({cardList}) =>
             <div className="row">
@@ -74,13 +36,18 @@ const PrintJSON = ({cardList}) =>
 
 function Game() {
     const [cardList, setCardList] = useState([])
+    const [mapList, setMapList] = useState([])
 
-    const generateBoard = () => {
+    
+
+    const generateCardList = () => {
+        let tempWords = []
+        tempWords = words
         let gameWords = []
             for (let i = 0; i < 25; i++) {
-                let random = parseInt(Math.floor(Math.random() * i))
-                gameWords.push(words[random])
-                words.splice(parseInt(random), 1)
+                let random = parseInt(Math.floor(Math.random() * tempWords.length))
+                gameWords.push(tempWords[random])
+                tempWords.splice(parseInt(random), 1)
             }
             var newCardList = []
             for (const i in gameWords) {
@@ -91,15 +58,36 @@ function Game() {
                 })
             }
          setCardList(newCardList);
+         generateMapList(newCardList)
     }
+
+    const generateMapList = (newCardList) => {
+        let tempMapList = []
+        for (const i in newCardList) {
+            tempMapList.push(newCardList[i].secretColor)
+        }
+        setMapList(tempMapList);
+    }
+    
     return (
         <main>
             <h1>CODENAMES</h1>
-            <button onClick={generateBoard}>New Game</button>
+            <button onClick={generateCardList}>New Game</button>
             <div className="container">
                 <Board
                 cardList={cardList} />
-                <Map />
+                <div className="map-section">
+                    <div className="map">
+                        <div className="row">
+                             {mapList.map((color, index) => (
+                                <Map 
+                                key={index} 
+                                color={color} 
+                                />  
+                                ))}
+                        </div>
+                    </div>
+                </div>
                 <PrintJSON
                 cardList={cardList} />
             </div>

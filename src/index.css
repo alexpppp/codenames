@@ -109,6 +109,10 @@ main {
     border: 10px solid #915533;
 }
 
+.map > .row {
+    width: 220px;
+}
+
 .block {
     width: 40px;
     height: 32px;
