@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import profile from './static/images/profile.png'
@@ -28,21 +28,16 @@ var board = {
     cards: []
 }
 
-class Card extends React.Component {
-    render() {
-        return (
+const Card = ({word}) => 
         <div className="card brown">
             <div className="box">
                 <div className="row">
-                    <h6 className="small">{this.props.word}</h6>
+                    <h6 className="small">{word}</h6>
                     <span className="profile"><img src={profile} alt="profile" /></span>
                 </div>
-                <h4 className="large">{this.props.word}</h4>
+                <h4 className="large">{word}</h4>
             </div>
         </div>
-        )
-    }
-}
 
 class Map extends React.Component {
     render() {
