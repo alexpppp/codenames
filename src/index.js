@@ -5,8 +5,9 @@ import profile from './static/images/profile.png'
 
 var words = ["NAPOLEON", "BLIND", "CHECK", "TANK", "SPURS", "SHEET", "QUEEN", "MARK", "GENIE", "WASHINGTON", "PIN", "MUD", "PARROT", "SHAKESPEARE", "ENGINE", "MEMORY", "JOCKEY", "FLUTE", "CARROT", "POCKET", "BATTLE", "PAINT", "KNOT", "GANGSTER", "BUTTERFLY", "FOG", "KICK", "STRAW", "GEAR", "SWITCH", "BRIDE", "DRUM", "PALM", "MOSCOW", "FIRE", "BAND", "GREECE", "SQUARE", "NOVEL", "PIPE", "SMUGGLER", "ENGLAND", "ROSE", "FAN", "CHANGE", "OCTOPUS", "WEB", "WHIP", "STADIUM", "DRAGON", "MISSILE", "PASTE", "SPIKE", "SCIENTIST", "BLOCK", "FRANCE", "PIANO","BUCK", "SPOT", "TIME", "TORCH", "STATE", "AGENT", "PRINCESS", "ROULETTE"]
 
-const Card = ({word}) => 
-        <div className="card brown">
+const Card = ({index, word, guessed, secretColor, revealSecretColor}) => 
+        <div className={guessed ? 'card ' + secretColor: 'card brown'}
+              onClick={() => revealSecretColor(index)} >
             <div className="box">
                 <div className="row">
                     <h6 className="small">{word}</h6>
@@ -19,12 +20,16 @@ const Card = ({word}) =>
 const Map = ({color}) =>
         <div className={'block ' + color}></div>
   
- const Board = ({cardList}) =>
+ const Board = ({cardList, revealSecretColor}) =>
             <div className="row">
                 {cardList.map((card, index) => (
                 <Card 
-                key={index} 
-                word={card.word} 
+                key={index}
+                index={index} 
+                word={card.word}
+                guessed={card.guessed}
+                secretColor={card.secretColor}
+                revealSecretColor={revealSecretColor}
                 />  
                 ))}
             </div>
@@ -37,8 +42,6 @@ const PrintJSON = ({cardList}) =>
 function Game() {
     const [cardList, setCardList] = useState([])
     const [mapList, setMapList] = useState([])
-
-    
 
     const generateCardList = () => {
         let tempWords = []
@@ -68,6 +71,12 @@ function Game() {
         }
         setMapList(tempMapList);
     }
+
+    const revealSecretColor = index => {
+        const newCardList = [...cardList];
+        newCardList[index].guessed = true;
+        setCardList(newCardList);
+    }
     
     return (
         <main>
@@ -75,7 +84,8 @@ function Game() {
             <button onClick={generateCardList}>New Game</button>
             <div className="container">
                 <Board
-                cardList={cardList} />
+                cardList={cardList}
+                revealSecretColor={revealSecretColor} />
                 <div className="map-section">
                     <div className="map">
                         <div className="row">
