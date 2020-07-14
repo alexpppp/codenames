@@ -42,6 +42,7 @@ main {
     padding: 8px;
     border-radius: 12px;
     margin: 4px;
+    background-color: #f3ddc5;
 }
 
 .box {
@@ -91,6 +92,10 @@ main {
 }
 
 .brown {
+    background: #c5b9a9;
+}
+
+.block.brown {
     background-color: #f3ddc5;
 }
 
@@ -113,6 +118,7 @@ main {
     width: 220px;
 }
 
+
 .block {
     width: 40px;
     height: 32px;
@@ -124,3 +130,80 @@ main {
     margin-top: 5rem;
     text-align: left;
 }
+
+/******** CARD FLIPPED STYLES *********/
+
+.blue > .box {
+    border-color: #238BAF;
+}
+
+.blue > .box > .row > .small {
+    border-color: #238BAF;
+    color: #238BAF;
+}
+
+.blue > .box > .row > .profile {
+    border-color: #238BAF;
+    background-color: transparent;
+}
+
+.blue > .box > .large {
+    color: #238BAF;
+}
+
+.red > .box {
+    border-color: #CF1A22;
+}
+
+.red > .box > .row > .small {
+    border-color: #CF1A22;
+    color: #CF1A22;
+}
+
+.red > .box > .row > .profile {
+    border-color: #CF1A22;
+    background-color: transparent;
+}
+
+.red > .box > .large {
+    color: #CF1A22;
+}
+
+.brown > .box {
+    border-color: #ACA090;
+}
+
+.brown > .box > .row > .small {
+    border-color: #ACA090;
+    color: #ACA090;
+}
+
+.brown > .box > .row > .profile {
+    border-color: #ACA090;
+    background-color: #ACA090;
+}
+
+.brown > .box > .large {
+    color: #ACA090;
+}
+
+.black > .box {
+    border-color: #4F5044;
+}
+
+.black > .box > .row > .small {
+    border-color: #4F5044;
+    color: #E8E9DD;
+}
+
+.black > .box > .row > .profile {
+    border-color: #4F5044;
+    background-color: transparent;
+}
+
+.black > .box > .large {
+    color: #E8E9DD;
+}
+
+
+/******** /end CARD FLIPPED STYLES *********/
