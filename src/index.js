@@ -25,7 +25,7 @@ const Card = ({index, word, guessed, secretColor, revealSecretColor}) => {
     );
 }
 
-const ScoreBoard = ({redScore, blueScore, teamTurn, endTurn}) =>
+const ScoreBoard = ({redScore, blueScore, teamTurn, endTurn, showAllCards}) =>
         <div>
             <div className="scoreboard">
                 <div className="red">
@@ -35,15 +35,14 @@ const ScoreBoard = ({redScore, blueScore, teamTurn, endTurn}) =>
                     {blueScore}
                 </div>
             </div>
-            <div className={teamTurn + " turn"}>{teamTurn}'s turn</div>
-            <button id="endTurnButton" onClick={endTurn}>End Turn</button>
+            <div className={teamTurn + " turn"}>{teamTurn === "black" ? "GAME OVER!" : teamTurn + "'s turn" }</div>
+            <button id="endTurnButton" onClick={teamTurn === "black" ? showAllCards : endTurn}>{teamTurn === "black" ? "Show all cards" : "End Turn"}</button>
         </div>
         
-
 const Map = ({color}) =>
         <div className={'block ' + color}></div>
   
- const Board = ({cardList, revealSecretColor}) =>
+const Board = ({cardList, revealSecretColor}) =>
             <div className="row">
                 {cardList.map((card, index) => (
                 <Card 
@@ -77,6 +76,10 @@ function Game() {
         count: 8,
     }
     ])
+    const [gameSettings, setGameSettings] = useState({
+        isOver: false,
+        winner: null
+    })
 
     useEffect(()=>{
         generateCardList()
@@ -84,7 +87,7 @@ function Game() {
 
     const generateCardList = () => {
         let tempWords = []
-        tempWords = words
+        tempWords = [...words]
         let gameWords = []
             // get 25 random gameWords from tempWords
             for (let i = 0; i < 25; i++) {
@@ -135,12 +138,17 @@ function Game() {
                 }
             }
 
-            // reset counts for scoreboard
-            setColorCounts(newTeamList)
+        // reset counts for scoreboard
+        setColorCounts(newTeamList)
+
+        // reset 
+        const tempGameSettings = {...gameSettings}
+        tempGameSettings.isOver = false
+        setGameSettings(tempGameSettings);
         
-         setTeamList(newTeamList);  
-         setCardList(newCardList);
-         generateMapList(newCardList);
+        setTeamList(newTeamList);  
+        setCardList(newCardList);
+        generateMapList(newCardList);
     }
 
     const setColorCounts = (newTeamList) => {
@@ -169,13 +177,16 @@ function Game() {
         updateScore()
         const teamTurn = teamList.find(i => i.isTurn).team
         if (newCardList[index].secretColor === "black") {
-            console.log("game over!")
+            gameOver(teamList.find(i => !i.isTurn).team)
         } else if (newCardList[index].secretColor != teamTurn) {
             endTurn()
         }
     }
 
     const updateScore = (index) => {
+        if (gameSettings.isOver) {
+            return
+        }
         let tempTeamList = [...teamList]
         let redScore = 0
         let blueScore = 0
@@ -190,9 +201,8 @@ function Game() {
         tempTeamList.find(i => i.team === "red").count = redScore
         tempTeamList.find(i => i.team === "blue").count = blueScore
         setTeamList(tempTeamList);
+        checkforWin()
     }
-
-    
 
     const endTurn = () => {
         let tempTeamList = [...teamList]
@@ -201,20 +211,44 @@ function Game() {
         }
         setTeamList(tempTeamList);
     }
+
+    const showAllCards = () => {
+        const newCardList = [...cardList];
+        for (const card in newCardList) {
+            newCardList[card].guessed = true;
+        }
+        setCardList(newCardList);
+    }
+
+    const gameOver = (winner) => {
+        const tempGameSettings = {...gameSettings}
+        tempGameSettings.isOver = true
+        tempGameSettings.winner = winner
+        setGameSettings(tempGameSettings);
+    }
+
+    const checkforWin = () => {
+        for (const team in teamList) {
+            if (teamList[team].count === 0) {
+                gameOver(teamList[team].team)
+            }
+        }
+    }
     
     return (
         <main>
             <div className="container">
             <div className="row header">
             <div className="title">
-                <h1 >CODENAMES</h1>
+                <h1>{gameSettings.winner ? gameSettings.winner + ' wins!' : "Codenames"}</h1>
                 <button onClick={generateCardList}>New Game</button>
             </div>
                 <ScoreBoard 
                 redScore={teamList.find(i => i.team === "red").count}
                 blueScore={teamList.find(i => i.team === "blue").count}
-                teamTurn={teamList.find(i => i.isTurn).team}
+                teamTurn={gameSettings.isOver ? "black" : teamList.find(i => i.isTurn).team}
                 endTurn={endTurn}
+                showAllCards={showAllCards}
                 />
             </div>
                 <Board

@@ -20,7 +20,7 @@ button {
 	border-radius:6px;
     border:1px solid #dcdcdc;
     color:#777777;
-    padding:6px 24px;
+    padding:6px 10px;
     cursor:pointer;
 }
 button:focus {
@@ -29,6 +29,7 @@ button:focus {
 
 .title {
     margin-right: 13.5rem;
+    text-transform: uppercase;
 }
 
 main {
