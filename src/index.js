@@ -63,18 +63,13 @@ function Game() {
     const [teamList, setTeamList] = useState([
         { 
         team: "red",
-        isStarting: true,
+        isStarting: false,
         count: 8
     },
     { 
         team: "blue",
-        isStarting: false,
+        isStarting: true,
         count: 8,
-    },
-    {   
-        team: "black",
-        isStarting: false,
-        count: 1
     }
     ])
 
@@ -122,11 +117,29 @@ function Game() {
                     }
                 }
             }
+            // add the black card
+            let blackCount = 1
+            while (blackCount > 0) {
+                let random = parseInt(Math.floor(Math.random() * 25))
+                if (!newCardList[random].secretColor) {
+                    newCardList[random].secretColor = "black"
+                    blackCount--
+                }
+            }
 
             // add brown to remainder of card secretColors
             for (const i in newCardList) {
                 if (!newCardList[i].secretColor) {
                     newCardList[i].secretColor = "brown"
+                }
+            }
+
+            // reset counts for scoreboard
+            for (const team in newTeamList) {
+                if (newTeamList[team].isStarting) {
+                    newTeamList[team].count = 9
+                } else if (!newTeamList[team].isStarting) {
+                    newTeamList[team].count = 8
                 }
             }
          
