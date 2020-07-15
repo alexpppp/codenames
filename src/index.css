@@ -14,7 +14,10 @@ h6 {
     font-weight: 600;
     font-size: 14px;
     margin: 0;
+}
 
+.title {
+    margin-right: 8.5rem;
 }
 
 main {
@@ -35,6 +38,10 @@ main {
 .row {
     display: flex;
     flex-wrap: wrap;
+}
+
+.row.header {
+    justify-content: flex-end;
 }
 
 .card {
@@ -117,7 +124,6 @@ main {
 .map > .row {
     width: 220px;
 }
-
 
 .block {
     width: 40px;
@@ -205,5 +211,19 @@ main {
     color: #E8E9DD;
 }
 
-
 /******** /end CARD FLIPPED STYLES *********/
+
+/******** SCOREBOARD *********/
+.scoreboard {
+    display: flex;
+    border: 3px solid #fff;
+    font-size: 30px;
+    border-radius: 4px;
+    text-align: center;
+    position: relative;
+    margin: 1rem;
+}
+.scoreboard > .red, .scoreboard > .blue {
+    color: white;
+    padding: 10px 40px;
+}

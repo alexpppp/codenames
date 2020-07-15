@@ -24,7 +24,16 @@ const Card = ({index, word, guessed, secretColor, revealSecretColor}) => {
         </div>
     );
 }
-        
+
+const ScoreBoard = ({redScore, blueScore}) =>
+        <div className="scoreboard">
+            <div className="red">
+                {redScore}
+            </div>
+            <div className="blue">
+                {blueScore}
+            </div>
+        </div>
 
 const Map = ({color}) =>
         <div className={'block ' + color}></div>
@@ -138,13 +147,37 @@ function Game() {
         const newCardList = [...cardList];
         newCardList[index].guessed = true;
         setCardList(newCardList);
+        updateScore(index)
+    }
+
+    const updateScore = (index) => {
+        let tempTeamList = teamList
+        let redScore = 0
+        let blueScore = 0
+        for (const card in cardList) {
+            if (!cardList[card].guessed && cardList[card].secretColor === "blue") {
+                blueScore++
+            }
+            if (!cardList[card].guessed && cardList[card].secretColor === "red") {
+                redScore++
+            }
+        }
+        tempTeamList.find(i => i.team === "red").count = redScore
+        tempTeamList.find(i => i.team === "blue").count = blueScore
+        setTeamList(tempTeamList);
     }
     
     return (
         <main>
-            <h1>CODENAMES</h1>
-            <button onClick={generateCardList}>New Game</button>
             <div className="container">
+            <div className="row header">
+            <h1 className="title">CODENAMES</h1>
+                <button onClick={generateCardList}>New Game</button>
+                <ScoreBoard 
+                redScore = {teamList.find(i => i.team === "red").count}
+                blueScore = {teamList.find(i => i.team === "blue").count}
+                />
+            </div>
                 <Board
                 cardList={cardList}
                 revealSecretColor={revealSecretColor} />
