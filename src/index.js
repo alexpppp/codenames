@@ -167,6 +167,12 @@ function Game() {
         newCardList[index].guessed = true;
         setCardList(newCardList);
         updateScore()
+        const teamTurn = teamList.find(i => i.isTurn).team
+        if (newCardList[index].secretColor === "black") {
+            console.log("game over!")
+        } else if (newCardList[index].secretColor != teamTurn) {
+            endTurn()
+        }
     }
 
     const updateScore = (index) => {
