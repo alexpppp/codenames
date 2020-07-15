@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import profile from './static/images/profile.png'
@@ -68,6 +68,11 @@ function Game() {
         count: 1
     }
     ])
+
+    useEffect(()=>{
+        generateCardList()
+    }, [])
+
     const generateCardList = () => {
         let tempWords = []
         tempWords = words
