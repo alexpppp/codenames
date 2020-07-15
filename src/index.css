@@ -23,6 +23,10 @@ button {
     padding:6px 24px;
     cursor:pointer;
 }
+button:focus {
+    outline: #dcdcdc auto 1px;
+}
+
 .title {
     margin-right: 13.5rem;
 }
@@ -249,7 +253,6 @@ main {
     font-size: 12px;
     padding: 10px 6px;
     border-radius: 5px;
-    margin-bottom: 1rem;
     font-weight:bold;
 }
 .turn.red {
@@ -268,6 +271,6 @@ main {
 }
 #endTurnButton {
     position: relative;
-    top: -53px;
+    top: -37px;
     left: 111px;
 }

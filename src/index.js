@@ -192,6 +192,8 @@ function Game() {
         setTeamList(tempTeamList);
     }
 
+    
+
     const endTurn = () => {
         let tempTeamList = [...teamList]
         for (const team in tempTeamList) {
