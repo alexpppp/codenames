@@ -78,7 +78,8 @@ function Game() {
     ])
     const [gameSettings, setGameSettings] = useState({
         isOver: false,
-        winner: null
+        winner: null,
+        startingTeam: teamList.find(i => i.isTurn).team
     })
 
     useEffect(()=>{
@@ -106,9 +107,16 @@ function Game() {
                 })
             }
             
-            // set team color counts
+            // change starting team 
             let newTeamList = []
-            newTeamList = teamList
+            newTeamList = [...teamList]
+            const tempGameSettings = {...gameSettings}
+            if (gameSettings.startingTeam === teamList.find(i => i.isTurn).team) {
+                endTurn()
+                tempGameSettings.startingTeam = teamList.find(i => i.isTurn).team
+            }
+
+            // set team color counts
             setColorCounts(newTeamList)
 
             // add the random secretColor to newCardList
@@ -141,11 +149,10 @@ function Game() {
         // reset counts for scoreboard
         setColorCounts(newTeamList)
 
-        // reset 
-        const tempGameSettings = {...gameSettings}
+        // reset game isOver
         tempGameSettings.isOver = false
-        setGameSettings(tempGameSettings);
         
+        setGameSettings(tempGameSettings);
         setTeamList(newTeamList);  
         setCardList(newCardList);
         generateMapList(newCardList);
@@ -170,7 +177,7 @@ function Game() {
         setMapList(tempMapList);
     }
 
-    const revealSecretColor = index => {
+    const revealSecretColor = (index) => {
         const newCardList = [...cardList];
         newCardList[index].guessed = true;
         setCardList(newCardList);
