@@ -15,9 +15,16 @@ h6 {
     font-size: 14px;
     margin: 0;
 }
-
+button {
+    background-color:#ededed;
+	border-radius:6px;
+    border:1px solid #dcdcdc;
+    color:#777777;
+    padding:6px 24px;
+    cursor:pointer;
+}
 .title {
-    margin-right: 8.5rem;
+    margin-right: 13.5rem;
 }
 
 main {
@@ -50,6 +57,7 @@ main {
     border-radius: 12px;
     margin: 4px;
     background-color: #f3ddc5;
+    cursor:pointer;
 }
 
 .box {
@@ -216,14 +224,50 @@ main {
 /******** SCOREBOARD *********/
 .scoreboard {
     display: flex;
-    border: 3px solid #fff;
     font-size: 30px;
-    border-radius: 4px;
+    border-radius: 5px;
     text-align: center;
     position: relative;
-    margin: 1rem;
+    margin: 1rem 1rem 0 1rem;
 }
 .scoreboard > .red, .scoreboard > .blue {
     color: white;
     padding: 10px 40px;
+}
+
+.scoreboard > .red {
+    border-top-left-radius: 5px;
+}
+
+.scoreboard > .blue {
+    border-top-right-radius: 5px;
+}
+
+.turn {
+    background: white;
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 10px 6px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-weight:bold;
+}
+.turn.red {
+    border: 5px solid #e8333b;
+    color: #e8333b;
+}
+
+.turn.blue {
+    border: 5px solid #3ca4c8;
+    color: #3ca4c8;
+}
+
+.turn.black {
+    border: 5px solid #35362a;
+    color: #35362a;
+}
+#endTurnButton {
+    position: relative;
+    top: -53px;
+    left: 111px;
 }

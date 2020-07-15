@@ -25,15 +25,20 @@ const Card = ({index, word, guessed, secretColor, revealSecretColor}) => {
     );
 }
 
-const ScoreBoard = ({redScore, blueScore}) =>
-        <div className="scoreboard">
-            <div className="red">
-                {redScore}
+const ScoreBoard = ({redScore, blueScore, teamTurn}) =>
+        <div>
+            <div className="scoreboard">
+                <div className="red">
+                    {redScore}
+                </div>
+                <div className="blue">
+                    {blueScore}
+                </div>
             </div>
-            <div className="blue">
-                {blueScore}
-            </div>
+            <div className={teamTurn + " turn"}>{teamTurn}'s turn</div>
+            <button id="endTurnButton">End Turn</button>
         </div>
+        
 
 const Map = ({color}) =>
         <div className={'block ' + color}></div>
@@ -63,12 +68,12 @@ function Game() {
     const [teamList, setTeamList] = useState([
         { 
         team: "red",
-        isStarting: false,
+        isTurn: false,
         count: 8
     },
     { 
         team: "blue",
-        isStarting: true,
+        isTurn: true,
         count: 8,
     }
     ])
@@ -102,7 +107,7 @@ function Game() {
             let newTeamList = []
             newTeamList = teamList
             for (const team in newTeamList) {
-                if (newTeamList[team].isStarting) {
+                if (newTeamList[team].isTurn) {
                     newTeamList[team].count = 9
                 }
             }
@@ -136,9 +141,9 @@ function Game() {
 
             // reset counts for scoreboard
             for (const team in newTeamList) {
-                if (newTeamList[team].isStarting) {
+                if (newTeamList[team].isTurn) {
                     newTeamList[team].count = 9
-                } else if (!newTeamList[team].isStarting) {
+                } else if (!newTeamList[team].isTurn) {
                     newTeamList[team].count = 8
                 }
             }
@@ -184,11 +189,15 @@ function Game() {
         <main>
             <div className="container">
             <div className="row header">
-            <h1 className="title">CODENAMES</h1>
+            <div className="title">
+                <h1 >CODENAMES</h1>
                 <button onClick={generateCardList}>New Game</button>
+            </div>
                 <ScoreBoard 
-                redScore = {teamList.find(i => i.team === "red").count}
-                blueScore = {teamList.find(i => i.team === "blue").count}
+                redScore={teamList.find(i => i.team === "red").count}
+                blueScore={teamList.find(i => i.team === "blue").count}
+                teamTurn={teamList.find(i => i.isTurn).team}
+                // endTurn={endTurn}
                 />
             </div>
                 <Board
