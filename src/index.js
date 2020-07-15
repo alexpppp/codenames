@@ -25,7 +25,7 @@ const Card = ({index, word, guessed, secretColor, revealSecretColor}) => {
     );
 }
 
-const ScoreBoard = ({redScore, blueScore, teamTurn}) =>
+const ScoreBoard = ({redScore, blueScore, teamTurn, endTurn}) =>
         <div>
             <div className="scoreboard">
                 <div className="red">
@@ -36,7 +36,7 @@ const ScoreBoard = ({redScore, blueScore, teamTurn}) =>
                 </div>
             </div>
             <div className={teamTurn + " turn"}>{teamTurn}'s turn</div>
-            <button id="endTurnButton">End Turn</button>
+            <button id="endTurnButton" onClick={endTurn}>End Turn</button>
         </div>
         
 
@@ -102,16 +102,12 @@ function Game() {
                     secretColor: null
                 })
             }
-
-            // add one count to starting team
+            
+            // set team color counts
             let newTeamList = []
             newTeamList = teamList
-            for (const team in newTeamList) {
-                if (newTeamList[team].isTurn) {
-                    newTeamList[team].count = 9
-                }
-            }
-        
+            setColorCounts(newTeamList)
+
             // add the random secretColor to newCardList
             for (const team in newTeamList) {
                 while (newTeamList[team].count > 0) {
@@ -140,17 +136,22 @@ function Game() {
             }
 
             // reset counts for scoreboard
-            for (const team in newTeamList) {
-                if (newTeamList[team].isTurn) {
-                    newTeamList[team].count = 9
-                } else if (!newTeamList[team].isTurn) {
-                    newTeamList[team].count = 8
-                }
-            }
-         
+            setColorCounts(newTeamList)
+        
          setTeamList(newTeamList);  
          setCardList(newCardList);
          generateMapList(newCardList);
+    }
+
+    const setColorCounts = (newTeamList) => {
+        for (const team in newTeamList) {
+            if (newTeamList[team].isTurn) {
+                newTeamList[team].count = 9
+            } else if (!newTeamList[team].isTurn) {
+                newTeamList[team].count = 8
+            }
+        }
+        return newTeamList
     }
 
     const generateMapList = (newCardList) => {
@@ -165,11 +166,11 @@ function Game() {
         const newCardList = [...cardList];
         newCardList[index].guessed = true;
         setCardList(newCardList);
-        updateScore(index)
+        updateScore()
     }
 
     const updateScore = (index) => {
-        let tempTeamList = teamList
+        let tempTeamList = [...teamList]
         let redScore = 0
         let blueScore = 0
         for (const card in cardList) {
@@ -182,6 +183,14 @@ function Game() {
         }
         tempTeamList.find(i => i.team === "red").count = redScore
         tempTeamList.find(i => i.team === "blue").count = blueScore
+        setTeamList(tempTeamList);
+    }
+
+    const endTurn = () => {
+        let tempTeamList = [...teamList]
+        for (const team in tempTeamList) {
+            tempTeamList[team].isTurn = !tempTeamList[team].isTurn
+        }
         setTeamList(tempTeamList);
     }
     
@@ -197,7 +206,7 @@ function Game() {
                 redScore={teamList.find(i => i.team === "red").count}
                 blueScore={teamList.find(i => i.team === "blue").count}
                 teamTurn={teamList.find(i => i.isTurn).team}
-                // endTurn={endTurn}
+                endTurn={endTurn}
                 />
             </div>
                 <Board
