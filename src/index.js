@@ -10,17 +10,21 @@ import blue from './static/images/blue.jpeg'
 
 var words = ["NAPOLEON", "BLIND", "CHECK", "TANK", "SPURS", "SHEET", "QUEEN", "MARK", "GENIE", "WASHINGTON", "PIN", "MUD", "PARROT", "SHAKESPEARE", "ENGINE", "MEMORY", "JOCKEY", "FLUTE", "CARROT", "POCKET", "BATTLE", "PAINT", "KNOT", "GANGSTER", "BUTTERFLY", "FOG", "KICK", "STRAW", "GEAR", "SWITCH", "BRIDE", "DRUM", "PALM", "MOSCOW", "FIRE", "BAND", "GREECE", "SQUARE", "NOVEL", "PIPE", "SMUGGLER", "ENGLAND", "ROSE", "FAN", "CHANGE", "OCTOPUS", "WEB", "WHIP", "STADIUM", "DRAGON", "MISSILE", "PASTE", "SPIKE", "SCIENTIST", "BLOCK", "FRANCE", "PIANO","BUCK", "SPOT", "TIME", "TORCH", "STATE", "AGENT", "PRINCESS", "ROULETTE"]
 
-const Card = ({index, word, guessed, secretColor, revealSecretColor}) => 
+const Card = ({index, word, guessed, secretColor, revealSecretColor}) => {
+    return (
         <div className={guessed ? 'card ' + secretColor: 'card'}
               onClick={() => revealSecretColor(index)} >
             <div className="box">
                 <div className="row">
                     <h6 className="small">{word}</h6>
-                    <span className="profile"><img src={guessed? secretColor : profile} alt="profile" /></span>
+                    <span className="profile"><img src={ guessed ? `${secretColor === 'red' ? red : `${secretColor === 'blue' ? blue : `${secretColor === 'black' ? black : `${brown}`}`}`}` : profile} alt="profile" /></span>
                 </div>
                 <h4 className={guessed ? 'large ' + secretColor: 'large'}>{word}</h4>
             </div>
         </div>
+    );
+}
+        
 
 const Map = ({color}) =>
         <div className={'block ' + color}></div>
