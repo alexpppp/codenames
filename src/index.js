@@ -10,16 +10,23 @@ import red from './static/images/red.jpeg'
 import blue from './static/images/blue.jpeg'
 
 
-
+ 
 
 const Card = ({index, word, guessed, secretColor, revealSecretColor}) => {
+    let images = {
+        profile: profile,
+        red: red,
+        blue: blue,
+        brown: brown,
+        black: black,
+    }
     return (
         <div className={guessed ? 'card ' + secretColor: 'card'}
               onClick={() => revealSecretColor(index)} >
             <div className="box">
                 <div className="row">
                     <h6 className="small">{word}</h6>
-                    <span className="profile"><img src={ guessed ? `${secretColor === 'red' ? red : `${secretColor === 'blue' ? blue : `${secretColor === 'black' ? black : `${brown}`}`}`}` : profile} alt="profile" /></span>
+                    <span className="profile"><img src={ guessed ? images[secretColor] : images.profile} alt="profile" /></span>
                 </div>
                 <h4 className={guessed ? 'large ' + secretColor: 'large'}>{word}</h4>
             </div>
