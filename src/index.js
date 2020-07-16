@@ -56,11 +56,6 @@ const Board = ({cardList, revealSecretColor}) =>
                 ))}
             </div>
       
-const PrintJSON = ({cardList}) =>
-    <div className="json">
-        {JSON.stringify(cardList)}
-    </div>
-
 function Game() {
     const [cardList, setCardList] = useState([])
     const [mapList, setMapList] = useState([])
@@ -273,8 +268,6 @@ function Game() {
                         </div>
                     </div>
                 </div>
-                <PrintJSON
-                cardList={cardList} />
             </div>
         </main>
       );
