@@ -1,5 +1,3 @@
-import React from 'react';
-
 var words = ["AFRICA",
 "AGENT",
 "AIR",

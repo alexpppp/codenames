@@ -1,0 +1,32 @@
+/******** VARIABLES *********/
+$color-background-light-blue: #F5FFFA;
+$color-blue: #3ca4c8;
+$color-dark-blue: #238BAF;
+$color-red: #e8333b;
+$color-dark-red: #CF1A22;
+$color-light-brown: #f3ddc5;
+$color-light-brown-borders: #9f8e7c;
+$color-brown:#c5b9a9;
+$color-brown-dark: #ACA090;
+$color-black-background: #35362a;
+$color-black-border: #4F5044;
+$color-white-font: #E8E9DD;
+$color-button-grey: #ededed;
+$color-button-border-grey: #dcdcdc;
+$color-button-font-grey: #777777;
+$color-white: white;
+
+/******** MIX-INS *********/
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius; 
+	-moz-border-radius: $radius; 
+	border-radius: $radius; 
+}
+
+/******** IMPORTS *********/
+@import 'base';
+@import 'scoreboard';
+@import 'header';
+@import 'board';
+@import 'card';
+@import 'map';

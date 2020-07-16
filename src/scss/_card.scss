@@ -1,0 +1,116 @@
+
+.card {
+	width: 195px;
+	padding: 8px;
+	@include border-radius(12px)
+	margin: 4px;
+	background-color: $color-light-brown;
+	cursor: pointer;
+}
+.box {
+	padding: 8px;
+	border: 2px solid $color-light-brown-borders;
+	@include border-radius(12px)
+}
+.small {
+	font-style: italic;
+	transform: rotate(180deg);
+	padding: 4px;
+	text-align: center;
+	margin-right: 14px;
+	color: #69573f;
+	border-top: 2px solid $color-light-brown-borders;
+	margin-bottom: 6px;
+	padding-bottom: 20px;
+	flex-grow: 2;
+}
+.large {
+	background: #eee;
+	@include border-radius(4px)
+	padding: 4px;
+	text-align: center;
+}
+.profile {
+	height: 32px;
+	width: 32px;
+	margin-right: 2px;
+	margin-top: 1px;
+	background-color: #dccec1;
+	border: 2px solid #ebd9c5;
+}
+.red {
+	background-color: $color-red;
+	>.box {
+		border-color: $color-dark-red;
+		>.row {
+			>.small {
+				border-color: $color-dark-red;
+				color: $color-dark-red;
+			}
+			>.profile {
+				border-color: $color-dark-red;
+				background-color: transparent;
+			}
+		}
+		>.large {
+			color: $color-dark-red;
+		}
+	}
+}
+.blue {
+	background-color: $color-blue;
+	>.box {
+		border-color: $color-dark-blue;
+		>.row {
+			>.small {
+				border-color: $color-dark-blue;
+				color: $color-dark-blue;
+			}
+			>.profile {
+				border-color: $color-dark-blue;
+				background-color: transparent;
+			}
+		}
+		>.large {
+			color: $color-dark-blue;
+		}
+	}
+}
+.black {
+	background-color: $color-black-background;
+	>.box {
+		border-color: $color-black-border;
+		>.row {
+			>.small {
+				border-color: $color-black-border;
+				color: $color-white-font;
+			}
+			>.profile {
+				border-color: $color-black-border;
+				background-color: transparent;
+			}
+		}
+		>.large {
+			color: $color-white-font;
+		}
+	}
+}
+.brown {
+	background: $color-brown;
+	>.box {
+		border-color: $color-brown-dark;
+		>.row {
+			>.small {
+				border-color: $color-brown-dark;
+				color: $color-brown-dark;
+			}
+			>.profile {
+				border-color: $color-brown-dark;
+				background-color: $color-brown-dark;
+			}
+		}
+		>.large {
+			color: $color-brown-dark;
+		}
+	}
+}

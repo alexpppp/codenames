@@ -26,10 +26,6 @@ function Game() {
         showMap: false
     })
 
-    useEffect(()=>{
-        generateCardList()
-    }, [])
-
     const generateCardList = () => {
         let tempWords = []
         tempWords = [...words]
@@ -132,7 +128,7 @@ function Game() {
         const teamTurn = teamList.find(i => i.isTurn).team
         if (newCardList[index].secretColor === "black") {
             gameOver(teamList.find(i => !i.isTurn).team)
-        } else if (newCardList[index].secretColor != teamTurn) {
+        } else if (newCardList[index].secretColor !== teamTurn) {
             endTurn()
         }
     }
@@ -194,6 +190,10 @@ function Game() {
         tempGameSettings.showMap = !tempGameSettings.showMap
         setGameSettings(tempGameSettings);
     }
+
+    useEffect(()=>{
+        generateCardList()
+    }, [])
     
     return (
         <main>

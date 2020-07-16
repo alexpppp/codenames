@@ -1,0 +1,33 @@
+#mapToggle {
+	margin: 1rem 0;
+}
+.map-section {
+	height: 20rem;
+	margin: 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 17rem;
+}
+.hidden {
+	display: none;
+}
+.map {
+	background-color: #0e0a09;
+	padding: 5px;
+	@include border-radius(8px)
+	border: 10px solid #915533;
+	>.row {
+		width: 220px;
+	}
+}
+.block {
+	width: 40px;
+	height: 32px;
+	margin: 2px;
+	@include border-radius(4px)
+}
+.block.brown {
+	background-color: $color-light-brown;
+}

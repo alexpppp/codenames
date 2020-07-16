@@ -1,0 +1,46 @@
+.scoreboard {
+	display: flex;
+	font-size: 30px;
+	@include border-radius(5px)
+	text-align: center;
+	position: relative;
+	margin: 1rem 1rem 0 1rem;
+	>.red {
+		color: $color-white;
+		padding: 10px 40px;
+		border-top-left-radius: 5px;
+	}
+	>.blue {
+		color: $color-white;
+		padding: 10px 40px;
+		border-top-right-radius: 5px;
+	}
+}
+.turn {
+	background-color: $color-white;
+	text-transform: uppercase;
+	font-size: 12px;
+	padding: 10px 6px;
+	@include border-radius(5px)
+	font-weight: bold;
+}
+.turn.red {
+	border: 5px solid $color-red;
+    color: $color-red;
+    background-color: $color-white;
+}
+.turn.blue {
+	border: 5px solid $color-blue;
+    color: $color-blue;
+    background-color: $color-white;
+}
+.turn.black {
+	border: 5px solid $color-black-background;
+    color: $color-black-background;
+    background-color: $color-white;
+}
+#endTurnButton {
+	position: relative;
+	top: -37px;
+	left: 111px;
+}
