@@ -148,6 +148,9 @@ function Game() {
         // reset game isOver
         tempGameSettings.isOver = false
         
+        // rehide Map on new game start
+        tempGameSettings.showMap = false
+        
         setGameSettings(tempGameSettings);
         setTeamList(newTeamList);  
         setCardList(newCardList);
