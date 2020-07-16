@@ -74,7 +74,8 @@ function Game() {
     const [gameSettings, setGameSettings] = useState({
         isOver: false,
         winner: null,
-        startingTeam: teamList.find(i => i.isTurn).team
+        startingTeam: teamList.find(i => i.isTurn).team,
+        showMap: false
     })
 
     useEffect(()=>{
@@ -236,6 +237,12 @@ function Game() {
             }
         }
     }
+
+    const toggleMap = () => {
+        const tempGameSettings = {...gameSettings}
+        tempGameSettings.showMap = !tempGameSettings.showMap
+        setGameSettings(tempGameSettings);
+    }
     
     return (
         <main>
@@ -257,13 +264,14 @@ function Game() {
                 cardList={cardList}
                 revealSecretColor={revealSecretColor} />
                 <div className="map-section">
-                    <div className="map">
+                <button id="mapToggle" onClick={toggleMap}>{gameSettings.showMap ? "Hide Map" : "Show Codemaster Map"}</button>
+                    <div className={gameSettings.showMap ? "map" : "map hidden"}>
                         <div className="row">
-                             {mapList.map((color, index) => (
-                                <Map 
-                                key={index} 
-                                color={color} 
-                                />  
+                                {mapList.map((color, index) => (
+                                    <Map 
+                                    key={index} 
+                                    color={color} 
+                                    />  
                                 ))}
                         </div>
                     </div>
