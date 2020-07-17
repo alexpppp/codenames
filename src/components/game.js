@@ -1,91 +1,82 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
 import words from '../data/words.js';
 import ScoreBoard from './scoreBoard.js';
 import Map from './map.js';
 import Board from './board.js';
 
+// import { store } from "../index";
+import { setGameSettings, setTeamList, setCardList, setMapList } from "../actions";
+
 function Game() {
-    const [cardList, setCardList] = useState([])
-    const [mapList, setMapList] = useState([])
-    const [teamList, setTeamList] = useState([
-        { 
-        team: "red",
-        isTurn: false,
-        count: 8
-    },
-    { 
-        team: "blue",
-        isTurn: true,
-        count: 8,
-    }
-    ])
-    const [gameSettings, setGameSettings] = useState({
-        isOver: false,
-        winner: null,
-        startingTeam: teamList.find(i => i.isTurn).team,
-        showMap: false
-    })
+    const store = useSelector(state => state);
+    const dispatch = useDispatch();
 
     const generateCardList = () => {
+        const teamList = store.teamList
+        const gameSettings = store.gameSettings
+        
         let tempWords = []
         tempWords = [...words]
         let gameWords = []
-            // get 25 random gameWords from tempWords
-            for (let i = 0; i < 25; i++) {
-                let random = parseInt(Math.floor(Math.random() * tempWords.length))
-                gameWords.push(tempWords[random])
-                tempWords.splice(parseInt(random), 1)
-            }
+        // get 25 random gameWords from tempWords
+        for (let i = 0; i < 25; i++) {
+            let random = parseInt(Math.floor(Math.random() * tempWords.length))
+            gameWords.push(tempWords[random])
+            tempWords.splice(parseInt(random), 1)
+        }
 
-            // add the 25 words as objects in cardList
-            var newCardList = []
-            for (const i in gameWords) {
-                newCardList.push({
-                    word: gameWords[i],
-                    guessed: false,
-                    secretColor: null
-                })
-            }
-            
-            // change starting team 
-            let newTeamList = []
-            newTeamList = [...teamList]
-            const tempGameSettings = {...gameSettings}
-            if (gameSettings.startingTeam === teamList.find(i => i.isTurn).team) {
-                endTurn()
-                tempGameSettings.startingTeam = teamList.find(i => i.isTurn).team
-            }
+        // add the 25 words as objects in cardList
+        var newCardList = []
+        for (const i in gameWords) {
+            newCardList.push({
+                word: gameWords[i],
+                guessed: false,
+                secretColor: null
+            })
+        }
+        
+        // change starting team 
+        let newTeamList = []
+        newTeamList = [...teamList]
+        const tempGameSettings = {...gameSettings}
+        if (tempGameSettings.startingTeam === newTeamList.find(i => i.isTurn).team) {
+            endTurn()
+            tempGameSettings.startingTeam = newTeamList.find(i => i.isTurn).team
+        }
 
-            // set team color counts
-            setColorCounts(newTeamList)
+        // set team color counts
+        setColorCounts(newTeamList)
 
-            // add the random secretColor to newCardList
-            for (const team in newTeamList) {
-                while (newTeamList[team].count > 0) {
-                    let random = parseInt(Math.floor(Math.random() * 25))
-                    if (!newCardList[random].secretColor) {
-                        newCardList[random].secretColor = newTeamList[team].team
-                        newTeamList[team].count--
-                    }
-                }
-            }
-            // add the black card
-            let blackCount = 1
-            while (blackCount > 0) {
+        // add the random secretColor to newCardList
+        for (const team in newTeamList) {
+            while (newTeamList[team].count > 0) {
                 let random = parseInt(Math.floor(Math.random() * 25))
                 if (!newCardList[random].secretColor) {
-                    newCardList[random].secretColor = "black"
-                    blackCount--
+                    newCardList[random].secretColor = newTeamList[team].team
+                    newTeamList[team].count--
                 }
             }
-
-            // add brown to remainder of card secretColors
-            for (const i in newCardList) {
-                if (!newCardList[i].secretColor) {
-                    newCardList[i].secretColor = "brown"
-                }
+        }
+        // add the black card
+        let blackCount = 1
+        while (blackCount > 0) {
+            let random = parseInt(Math.floor(Math.random() * 25))
+            if (!newCardList[random].secretColor) {
+                newCardList[random].secretColor = "black"
+                blackCount--
             }
+        }
 
+        // add brown to remainder of card secretColors
+        for (const i in newCardList) {
+            if (!newCardList[i].secretColor) {
+                newCardList[i].secretColor = "brown"
+            }
+        }
+         
         // reset counts for scoreboard
         setColorCounts(newTeamList)
 
@@ -95,9 +86,11 @@ function Game() {
         // rehide Map on new game start
         tempGameSettings.showMap = false
         
-        setGameSettings(tempGameSettings);
-        setTeamList(newTeamList);  
-        setCardList(newCardList);
+        // dispatch actions to update store
+        dispatch(setGameSettings(tempGameSettings));
+        dispatch(setTeamList(newTeamList));
+        dispatch(setCardList(newCardList));
+        
         generateMapList(newCardList);
     }
 
@@ -117,10 +110,12 @@ function Game() {
         for (const i in newCardList) {
             tempMapList.push(newCardList[i].secretColor)
         }
-        setMapList(tempMapList);
+        dispatch(setMapList(tempMapList));
     }
 
     const revealSecretColor = (index) => {
+        const teamList = store.teamList
+        const cardList = store.cardList
         const newCardList = [...cardList];
         newCardList[index].guessed = true;
         setCardList(newCardList);
@@ -134,9 +129,12 @@ function Game() {
     }
 
     const updateScore = (index) => {
+        const gameSettings = store.gameSettings
+        const cardList = store.cardList
         if (gameSettings.isOver) {
             return
         }
+        const teamList = store.teamList
         let tempTeamList = [...teamList]
         let redScore = 0
         let blueScore = 0
@@ -150,34 +148,40 @@ function Game() {
         }
         tempTeamList.find(i => i.team === "red").count = redScore
         tempTeamList.find(i => i.team === "blue").count = blueScore
-        setTeamList(tempTeamList);
+        
+        dispatch(setTeamList(tempTeamList));
         checkforWin()
     }
 
     const endTurn = () => {
+        const teamList = store.teamList
         let tempTeamList = [...teamList]
         for (const team in tempTeamList) {
             tempTeamList[team].isTurn = !tempTeamList[team].isTurn
         }
-        setTeamList(tempTeamList);
+        dispatch(setTeamList(tempTeamList));
     }
 
     const showAllCards = () => {
+        const cardList = store.cardList
         const newCardList = [...cardList];
         for (const card in newCardList) {
             newCardList[card].guessed = true;
         }
-        setCardList(newCardList);
+        dispatch(setCardList(newCardList));
     }
 
     const gameOver = (winner) => {
+        const gameSettings = store.gameSettings
         const tempGameSettings = {...gameSettings}
         tempGameSettings.isOver = true
         tempGameSettings.winner = winner
-        setGameSettings(tempGameSettings);
+        
+        dispatch(setGameSettings(tempGameSettings));
     }
 
     const checkforWin = () => {
+        const teamList = store.teamList
         for (const team in teamList) {
             if (teamList[team].count === 0) {
                 gameOver(teamList[team].team)
@@ -186,13 +190,15 @@ function Game() {
     }
 
     const toggleMap = () => {
+        const gameSettings = store.gameSettings
         const tempGameSettings = {...gameSettings}
         tempGameSettings.showMap = !tempGameSettings.showMap
-        setGameSettings(tempGameSettings);
+        
+        dispatch(setGameSettings(tempGameSettings));
     }
-
     useEffect(()=>{
         generateCardList()
+        // eslint-disable-next-line
     }, [])
     
     return (
@@ -200,25 +206,25 @@ function Game() {
             <div className="container">
             <div className="row header">
             <div className="title">
-                <h1>{gameSettings.winner ? gameSettings.winner + ' wins!' : "Codenames"}</h1>
+                <h1>{store.gameSettings.winner ? store.gameSettings.winner + ' wins!' : "Codenames"}</h1>
                 <button onClick={generateCardList}>New Game</button>
             </div>
                 <ScoreBoard 
-                redScore={teamList.find(i => i.team === "red").count}
-                blueScore={teamList.find(i => i.team === "blue").count}
-                teamTurn={gameSettings.isOver ? "black" : teamList.find(i => i.isTurn).team}
+                redScore={store.teamList.find(i => i.team === "red").count}
+                blueScore={store.teamList.find(i => i.team === "blue").count}
+                teamTurn={store.gameSettings.isOver ? "black" : store.teamList.find(i => i.isTurn).team}
                 endTurn={endTurn}
                 showAllCards={showAllCards}
                 />
             </div>
                 <Board
-                cardList={cardList}
+                cardList={store.cardList}
                 revealSecretColor={revealSecretColor} />
                 <div className="map-section">
-                <button id="mapToggle" onClick={toggleMap}>{gameSettings.showMap ? "Hide Map" : "Show Codemaster Map"}</button>
-                    <div className={gameSettings.showMap ? "map" : "map hidden"}>
+                <button id="mapToggle" onClick={toggleMap}>{store.gameSettings.showMap ? "Hide Map" : "Show Codemaster Map"}</button>
+                    <div className={store.gameSettings.showMap ? "map" : "map hidden"}>
                         <div className="row">
-                                {mapList.map((color, index) => (
+                                {store.mapList.map((color, index) => (
                                     <Map 
                                     key={index} 
                                     color={color} 
