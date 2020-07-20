@@ -85,6 +85,9 @@ function Game() {
         
         // rehide Map on new game start
         tempGameSettings.showMap = false
+
+        // reset game winner to null
+        tempGameSettings.winner = null
         
         // dispatch actions to update store
         dispatch(setGameSettings(tempGameSettings));
