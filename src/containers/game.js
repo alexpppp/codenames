@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 import words from '../data/words.js';
-import ScoreBoard from './scoreBoard.js';
-import Map from './map.js';
-import Board from './board.js';
+import ScoreBoard from '../components/scoreBoard.js';
+import Map from '../components/map.js';
+import Board from '../components/board.js';
 
 // import { store } from "../index";
 import { setGameSettings, setTeamList, setCardList, setMapList } from "../actions";
