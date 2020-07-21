@@ -203,7 +203,7 @@ function Game() {
         generateCardList()
         // eslint-disable-next-line
     }, [])
-    
+    console.log(store.teamList.find(i => i.team === "red").count)
     return (
         <main>
             <div className="container">
